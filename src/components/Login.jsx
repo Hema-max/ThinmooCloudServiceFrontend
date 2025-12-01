@@ -28,13 +28,15 @@ export default function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const cloudBase =  "https://thinmoocloudservice-production.up.railway.app";
+
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     try {
       if (email === 'Admin123' && password === 'Test@123' || email === 'hr123' && password === 'hr@123') {
-        const res = await axios.get("http://localhost:5000/api/auth/login"
+        const res = await axios.get(`${cloudBase}/api/auth/login`
         );
         localStorage.setItem('username', email);
         localStorage.setItem('password', password);
@@ -47,7 +49,7 @@ export default function Login() {
         localStorage.setItem("accessToken", token);
 
         // Send token to backend for cron usage
-        await fetch("http://localhost:5000/api/set-cloud-token", {
+        await fetch(`${cloudBase}/api/set-cloud-token`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token }),

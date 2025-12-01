@@ -53,6 +53,8 @@ export default function AuthorizedDriverBulim() {
   const [error, setError] = useState("");
   const [departments, setDepartments] = useState([]);
 
+  const cloudBase =  "https://thinmoocloudservice-production.up.railway.app";
+
   // Dialog
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState("view");
@@ -89,7 +91,7 @@ export default function AuthorizedDriverBulim() {
   // ---------- Fetch departments ----------
   const fetchDepartments = useCallback(async (cid = communityId) => {
     try {
-      const res = await axios.get("http://localhost:5000/api/departments", {
+      const res = await axios.get(`${cloudBase}/api/departments`, {
         params: {
           accessToken: localStorage.getItem("token"),
           extCommunityId: cid,
@@ -112,7 +114,7 @@ export default function AuthorizedDriverBulim() {
     }
 
     // Send token to backend for cron usage
-    await fetch("http://localhost:5000/api/set-cloud-token", {
+    await fetch(`${cloudBase}/api/set-cloud-token`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token }),
@@ -140,7 +142,7 @@ export default function AuthorizedDriverBulim() {
         ...(appliedFilters?.dept && { dept: appliedFilters.dept }),
       };
 
-      const res = await axios.get("http://localhost:5000/api/employees", {
+      const res = await axios.get(`${cloudBase}/api/employees`, {
         params,
         cancelToken: cancelToken.token,
       });
@@ -232,7 +234,7 @@ export default function AuthorizedDriverBulim() {
     handleMenuClose();
     setActionLoading(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/employees/${row.id}`, {
+      const res = await axios.get(`${cloudBase}/api/employees/${row.id}`, {
         params: {
           accessToken: localStorage.getItem("token"),
           extCommunityId: communityId,
@@ -258,7 +260,7 @@ export default function AuthorizedDriverBulim() {
     handleMenuClose();
     setActionLoading(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/employees/${row.id}`, {
+      const res = await axios.get(`${cloudBase}/api/employees/${row.id}`, {
         params: {
           accessToken: localStorage.getItem("token"),
           extCommunityId: communityId,
@@ -311,7 +313,7 @@ export default function AuthorizedDriverBulim() {
         return;
       }
       const accessToken = localStorage.getItem("token");
-      const apiBase = "http://localhost:5000/api/employees";
+      const apiBase = `${cloudBase}/api/employees`;
       const apiList = `${apiBase}`;
 
       let allSuccess = true;
@@ -388,8 +390,8 @@ export default function AuthorizedDriverBulim() {
       }
 
       const accessToken = localStorage.getItem("token");
-      const apiDelete = "http://localhost:5000/api/employees";
-      const apiList = "http://localhost:5000/api/employees";
+      const apiDelete = `${cloudBase}/api/employees`;
+      const apiList = `${cloudBase}/api/employees`;
 
       // If selectAllGlobal, fetch all matching rows (by filters) first, otherwise use selectedRows on current page.
       let toDeleteRows = [];
@@ -476,10 +478,11 @@ export default function AuthorizedDriverBulim() {
       }
 
       const token = localStorage.getItem("token");
-      const apiAdd = "http://localhost:5000/api/employees/add";
-      const apiUpdate = "http://localhost:5000/api/employees/update";
-      const apiDept = "http://localhost:5000/api/departments";
-      const apiList = "http://localhost:5000/api/employees";
+      const apiAdd = `${cloudBase}/api/employees/add`;
+      const apiUpdate = `${cloudBase}/api/employees/update`;
+      const apiDept = `${cloudBase}/api/departments`;
+      const apiList = `${cloudBase}/api/employees`
+      ;
 
       const translateError = (msg) => {
         if (!msg) return msg;
@@ -634,7 +637,7 @@ export default function AuthorizedDriverBulim() {
       if (selectAllGlobal) {
         // Fetch all pages from your employees API using safe batching
         const token = localStorage.getItem("token");
-        const apiList = "http://localhost:5000/api/employees";
+        const apiList = `${cloudBase}/api/employees`;
         const batchSize = 500;
         let p = 1;
         let all = [];

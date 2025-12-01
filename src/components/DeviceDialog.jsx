@@ -35,6 +35,8 @@ export default function DeviceDialog({
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const cloudBase =  "https://thinmoocloudservice-production.up.railway.app";
+
 
 
   useEffect(() => {
@@ -62,7 +64,7 @@ export default function DeviceDialog({
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          "http://localhost:5000/api/devices/building-units",
+          `${cloudBase}/api/devices/building-units`,
           {
             params: {
               accessToken: token,
@@ -112,7 +114,7 @@ export default function DeviceDialog({
     const token = localStorage.getItem("token");
     try {
       if (isAddMode) {
-        await axios.post("http://localhost:5000/api/devices/add", {
+        await axios.post(`${cloudBase}/api/devices/add`, {
           accessToken: token,
           extCommunityId: communityId,
           extCommunityUuid: communityUuid,
@@ -121,7 +123,7 @@ export default function DeviceDialog({
           positionId: formData.positionId,
         });
       } else if (isEditMode) {
-        await axios.post("http://localhost:5000/api/devices/update", {
+        await axios.post(`${cloudBase}/api/devices/update`, {
           accessToken: token,
           extCommunityId: communityId,
           extCommunityUuid: communityUuid,

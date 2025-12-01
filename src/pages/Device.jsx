@@ -65,6 +65,10 @@ export default function DeviceBulim() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
+   const cloudBase =  "https://thinmoocloudservice-production.up.railway.app";
+
+
+
   const [lastSeenMap, setLastSeenMap] = useState({});
 
 
@@ -101,7 +105,7 @@ export default function DeviceBulim() {
         extCommunityId: communityId,
         extCommunityUuid: communityUuid,
       };
-      const res = await axios.get("http://localhost:5000/api/local/lastseen/map", { params });
+      const res = await axios.get(`${cloudBase}/api/local/lastseen/map`, { params });
       if (res.data?.code === 0 && res.data.data?.map) {
         setLastSeenMap(res.data.data.map);
         localStorage.setItem("deviceLastSeen", JSON.stringify(res.data.data.map));
@@ -129,7 +133,7 @@ export default function DeviceBulim() {
       };
 
       // GET sync (we added GET /sync in backend)
-      const res = await axios.get("http://localhost:5000/api/local/lastseen/sync", { params });
+      const res = await axios.get(`${cloudBase}/api/local/lastseen/sync`, { params });
       if (res.data?.code === 0) {
         toast.success(`LastSeen sync done — processed ${res.data.processed ?? "0"} devices`);
         // update local map after sync
@@ -155,7 +159,7 @@ export default function DeviceBulim() {
     setGlobalLoading(true);
     setError("");
     // Send token to backend for cron usage
-    await fetch("http://localhost:5000/api/set-cloud-token", {
+    await fetch(`${cloudBase}/api/set-cloud-token`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token }),
@@ -174,7 +178,7 @@ export default function DeviceBulim() {
       };
 
       // Step 1️⃣: Fetch cloud device list
-      const res = await axios.get("http://localhost:5000/api/devices/list", { params });
+      const res = await axios.get(`${cloudBase}/api/devices/list`, { params });
 
       if (res.data?.code === 0 && res.data.data?.list) {
         const { list, totalCount, currPage, pageSize } = res.data.data;
@@ -187,7 +191,7 @@ export default function DeviceBulim() {
             extCommunityId: communityId,
             extCommunityUuid: communityUuid,
           };
-          const mapRes = await axios.get("http://localhost:5000/api/local/lastseen/map", {
+          const mapRes = await axios.get(`${cloudBase}/api/local/lastseen/map`, {
             params: mapParams,
           });
           if (mapRes.data?.code === 0 && mapRes.data.data?.map) {
@@ -311,7 +315,7 @@ export default function DeviceBulim() {
   const fetchDeviceDetails = async (dev) => {
     setGlobalLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/devices/get", {
+      const res = await axios.post(`${cloudBase}/api/devices/get`, {
         accessToken: token,
         extCommunityId: communityId,
         extCommunityUuid: communityUuid,
@@ -335,7 +339,7 @@ export default function DeviceBulim() {
   const confirmDelete = async () => {
     try {
       setGlobalLoading(true);
-      await axios.post("http://localhost:5000/api/devices/delete", {
+      await axios.post(`${cloudBase}/api/devices/delete`, {
         accessToken: token,
         extCommunityId: communityId,
         extCommunityUuid: communityUuid,
@@ -370,7 +374,7 @@ export default function DeviceBulim() {
 
     setChecking(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/devices/check", {
+      const res = await axios.post(`${cloudBase}/api/devices/check`, {
         accessToken: token,
         devSn,
       });
@@ -407,7 +411,7 @@ export default function DeviceBulim() {
 
     try {
       setGlobalLoading(true);
-      const res = await axios.post("http://localhost:5000/api/devices/replace", {
+      const res = await axios.post(`${cloudBase}/api/devices/replace`, {
         accessToken: token,
         extCommunityId: communityId,
         extCommunityUuid: communityUuid,
@@ -436,7 +440,7 @@ export default function DeviceBulim() {
       setExporting(true);
 
       // ⭐ Fetch LastSeen map (real values)
-      const lastSeenMapRes = await axios.get("http://localhost:5000/api/local/lastseen/map", {
+      const lastSeenMapRes = await axios.get(`${cloudBase}/api/local/lastseen/map`, {
         params: { extCommunityId: communityId },
       });
       const lastSeenMap = lastSeenMapRes.data?.data.map || {};
@@ -449,7 +453,7 @@ export default function DeviceBulim() {
 
         if (isAllSelected) {
           // Fetch total count
-          const metaRes = await axios.get("http://localhost:5000/api/devices/list", {
+          const metaRes = await axios.get(`${cloudBase}/api/devices/list`, {
             params: {
               accessToken: token,
               extCommunityId: communityId,
@@ -468,7 +472,7 @@ export default function DeviceBulim() {
           const allRecords = [];
 
           for (let p = 1; p <= totalPages; p++) {
-            const res = await axios.get("http://localhost:5000/api/devices/list", {
+            const res = await axios.get(`${cloudBase}/api/devices/list`, {
               params: {
                 accessToken: token,
                 extCommunityId: communityId,
@@ -523,7 +527,7 @@ export default function DeviceBulim() {
       }
 
       // ---------------- EXPORT ALL ----------------
-      const metaRes = await axios.get("http://localhost:5000/api/devices/list", {
+      const metaRes = await axios.get(`${cloudBase}/api/devices/list`, {
         params: {
           accessToken: token,
           extCommunityId: communityId,
@@ -542,7 +546,7 @@ export default function DeviceBulim() {
       const allRecords = [];
 
       for (let p = 1; p <= totalPages; p++) {
-        const res = await axios.get("http://localhost:5000/api/devices/list", {
+        const res = await axios.get(`${cloudBase}/api/devices/list`, {
           params: {
             accessToken: token,
             extCommunityId: communityId,
@@ -613,7 +617,7 @@ export default function DeviceBulim() {
         return;
       }
 
-      await axios.post("http://localhost:5000/api/devices/delete", {
+      await axios.post(`${cloudBase}/api/devices/delete`, {
         accessToken: token,
         extCommunityId: communityId,
         extCommunityUuid: communityUuid,
