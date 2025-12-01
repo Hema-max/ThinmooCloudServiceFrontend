@@ -178,7 +178,7 @@ export default function DeviceBulim() {
       };
 
       // Step 1️⃣: Fetch cloud device list
-      const res = await axios.get(`${cloudBase}/api/devices/list`, { params });
+      const res = await axios.post(`${cloudBase}/api/devices/list`, { params });
 
       if (res.data?.code === 0 && res.data.data?.list) {
         const { list, totalCount, currPage, pageSize } = res.data.data;
@@ -453,7 +453,7 @@ export default function DeviceBulim() {
 
         if (isAllSelected) {
           // Fetch total count
-          const metaRes = await axios.get(`${cloudBase}/api/devices/list`, {
+          const metaRes = await axios.post(`${cloudBase}/api/devices/list`, {
             params: {
               accessToken: token,
               extCommunityId: communityId,
@@ -472,7 +472,7 @@ export default function DeviceBulim() {
           const allRecords = [];
 
           for (let p = 1; p <= totalPages; p++) {
-            const res = await axios.get(`${cloudBase}/api/devices/list`, {
+            const res = await axios.post(`${cloudBase}/api/devices/list`, {
               params: {
                 accessToken: token,
                 extCommunityId: communityId,
@@ -527,7 +527,7 @@ export default function DeviceBulim() {
       }
 
       // ---------------- EXPORT ALL ----------------
-      const metaRes = await axios.get(`${cloudBase}/api/devices/list`, {
+      const metaRes = await axios.post(`${cloudBase}/api/devices/list`, {
         params: {
           accessToken: token,
           extCommunityId: communityId,
@@ -546,7 +546,7 @@ export default function DeviceBulim() {
       const allRecords = [];
 
       for (let p = 1; p <= totalPages; p++) {
-        const res = await axios.get(`${cloudBase}/api/devices/list`, {
+        const res = await axios.post(`${cloudBase}/api/devices/list`, {
           params: {
             accessToken: token,
             extCommunityId: communityId,

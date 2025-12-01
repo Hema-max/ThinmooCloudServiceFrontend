@@ -36,7 +36,7 @@ export default function Login() {
     setError('');
     try {
       if (email === 'Admin123' && password === 'Test@123' || email === 'hr123' && password === 'hr@123') {
-        const res = await axios.get(`${cloudBase}/api/auth/login`
+        const res = await axios.post(`${cloudBase}/api/auth/login`
         );
         localStorage.setItem('username', email);
         localStorage.setItem('password', password);
