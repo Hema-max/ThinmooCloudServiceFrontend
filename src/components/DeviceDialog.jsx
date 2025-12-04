@@ -35,9 +35,9 @@ export default function DeviceDialog({
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  //const cloudBase =  "https://thinmoocloudservice-production.up.railway.app/";
+  const cloudBase =  "https://thinmoocloudservice-production.up.railway.app/";
 
-  const cloudBase = "/";
+  c//onst cloudBase = "/";
 
 
   useEffect(() => {

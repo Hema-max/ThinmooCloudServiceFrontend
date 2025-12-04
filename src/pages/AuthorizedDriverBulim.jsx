@@ -53,9 +53,9 @@ export default function AuthorizedDriverBulim() {
   const [error, setError] = useState("");
   const [departments, setDepartments] = useState([]);
 
-  //const cloudBase =  "https://thinmoocloudservice-production.up.railway.app/";
+  const cloudBase =  "https://thinmoocloudservice-production.up.railway.app/";
 
-   const cloudBase = "/";
+   //const cloudBase = "/";
 
   // Dialog
   const [dialogOpen, setDialogOpen] = useState(false);

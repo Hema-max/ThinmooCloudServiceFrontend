@@ -28,9 +28,9 @@ export default function Login() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  //const cloudBase =  "https://thinmoocloudservice-production.up.railway.app/";
+  const cloudBase =  "https://thinmoocloudservice-production.up.railway.app/";
 
-  const cloudBase = "/";
+  //const cloudBase = "/";
 
   const submit = async (e) => {
     e.preventDefault();

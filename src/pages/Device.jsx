@@ -65,9 +65,9 @@ export default function DeviceBulim() {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
-  //const cloudBase =  "https://thinmoocloudservice-production.up.railway.app/";
+  const cloudBase =  "https://thinmoocloudservice-production.up.railway.app/";
 
-  const cloudBase = "/";
+  //const cloudBase = "/";
 
 
 
